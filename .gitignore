@@ -52,3 +52,26 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+# Ignore Visual Studio artifacts
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Ignore build outputs
+bin/
+obj/
+
+# Ignore MAUI build artifacts
+*.db
+*.db-shm
+*.db-wal
+
+# Ignore local Azure Functions settings
+local.settings.json
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
