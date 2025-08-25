@@ -12,25 +12,38 @@ jobs:
   build-and-deploy:
     runs-on: windows-latest
 
+    env:
+      COSMOSDB_CONNECTION: ${{ secrets.COSMOSDB_CONNECTION }}
+      ANOTHER_SECRET: ${{ secrets.ANOTHER_SECRET }}
+
     steps:
+    # Checkout the repository
     - name: Checkout repository
       uses: actions/checkout@v3
 
+    # Setup .NET 8 SDK
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 8.0.x
 
+    # Restore dependencies using the solution file
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore CloudTasker.Functions.sln
+      working-directory: backend/CloudTasker.Functions
 
+    # Build the solution in Release configuration
     - name: Build project
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build CloudTasker.Functions.sln --configuration Release
+      working-directory: backend/CloudTasker.Functions
 
-    - name: Run tests
-      run: dotnet test --no-build --verbosity normal
+    # Run unit tests
+    - name: Run unit tests
+      run: dotnet test CloudTasker.Tests/CloudTasker.Tests.csproj --no-build --verbosity normal
+      working-directory: backend/CloudTasker.Functions
 
-    - name: 'Deploy to Azure Function App'
+    # Deploy to Azure Function App using publish profile secret
+    - name: Deploy to Azure Function App
       uses: azure/functions-action@v1
       with:
         app-name: 'cloudtaskerfunc-santi'
