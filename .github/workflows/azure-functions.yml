@@ -39,7 +39,7 @@ jobs:
 
     # Run unit tests
     - name: Run unit tests
-      run: dotnet test CloudTasker.Tests/CloudTasker.Tests.csproj --no-build --verbosity normal
+      run: dotnet test CloudTasker.Tests/CloudTasker.Tests.csproj --verbosity normal
       working-directory: backend/CloudTasker.Functions
 
     # Deploy to Azure Function App using publish profile secret
