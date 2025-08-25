@@ -42,13 +42,14 @@ namespace CloudTasker.Api.Functions
 
             var now = DateTimeOffset.UtcNow;
             var item = new TaskItem(
-                Id: Guid.NewGuid().ToString("n"),
-                Title: body.Title!.Trim(),
-                Description: body.Description,
-                DueDate: body.DueDate,
-                IsDone: body.IsDone ?? false,
-                CreatedAt: now,
-                UpdatedAt: now);
+                Guid.NewGuid().ToString("n"),
+                body.Title!.Trim(),
+                body.Description,
+                body.DueDate,
+                body.IsDone ?? false,
+                now,
+                now
+            );
 
             var created = await _repo.CreateAsync(item);
             return await req.JsonAsync(created.ToResponse(), HttpStatusCode.Created);
@@ -59,24 +60,29 @@ namespace CloudTasker.Api.Functions
             [HttpTrigger(AuthorizationLevel.Anonymous, "put", Route = "tasks/{id}")] HttpRequestData req, string id)
         {
             var existing = await _repo.GetAsync(id);
-            if (existing is null) return req.Empty(HttpStatusCode.NotFound);
+            if (existing is null)
+                return req.Empty(HttpStatusCode.NotFound);
 
             var body = await req.ReadJsonAsync<TaskWriteRequest>();
             if (body is null || string.IsNullOrWhiteSpace(body.Title) || body.IsDone is null)
-                return await req.JsonAsync(new { error = "Title and isDone are required." }, HttpStatusCode.BadRequest);
-
-            var updated = existing with
             {
-                Title = body.Title!.Trim(),
-                Description = body.Description,
-                DueDate = body.DueDate,
-                IsDone = body.IsDone!.Value,
-                UpdatedAt = DateTimeOffset.UtcNow
-            };
+                return await req.JsonAsync(
+                    new { error = "Title and isDone are required." },
+                    HttpStatusCode.BadRequest
+                );
+            }
 
-            var ok = await _repo.UpdateAsync(updated);
-            if (!ok) return req.Empty(HttpStatusCode.NotFound);
-            return await req.JsonAsync(updated.ToResponse());
+            existing.Title = body.Title!.Trim();
+            existing.Description = body.Description;
+            existing.DueDate = body.DueDate;
+            existing.IsDone = body.IsDone.Value;
+            existing.UpdatedAt = DateTimeOffset.UtcNow;
+
+            var ok = await _repo.UpdateAsync(existing);
+            if (!ok)
+                return req.Empty(HttpStatusCode.NotFound);
+
+            return await req.JsonAsync(existing.ToResponse());
         }
 
         [Function("DeleteTask")]

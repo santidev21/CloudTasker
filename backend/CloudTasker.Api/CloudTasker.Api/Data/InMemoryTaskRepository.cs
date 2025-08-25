@@ -1,8 +1,7 @@
-﻿using CloudTasker.Api.Data;
-using CloudTasker.Api.Models;
+﻿using CloudTasker.Api.Models;
 using System.Collections.Concurrent;
 
-namespace CloudTasker.Api
+namespace CloudTasker.Api.Data
 {
     public class InMemoryTaskRepository : ITaskRepository
     {
