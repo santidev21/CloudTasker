@@ -38,6 +38,13 @@ The backend follows a lightweight **clean separation** of responsibilities:
 
 ---
 
+## 📚 API Documentation
+
+- 🌐 **Live Docs (Postman):** [CloudTasker API Docs](https://www.postman.com/santidev21/cloudtasker-api-docs/collection/y2tugv2/cloudtasker-api)  
+- 📦 **Collection JSON (local):** [`docs/CloudTasker-API.postman_collection.json`](./backend/CloudTasker.Functions/CloudTasker.Api/Docs/CloudTasker-API.postman_collection.json)
+
+---
+
 ## 🚀 Getting Started
 
 ### 🧩 Prerequisites
@@ -52,4 +59,4 @@ The backend follows a lightweight **clean separation** of responsibilities:
    ```bash
    git clone https://github.com/santidev21/cloudtasker.git
    cd cloudtasker
-
+```
