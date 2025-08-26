@@ -48,12 +48,10 @@ jobs:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Deploy via Azure CLI ZipDeploy
+      shell: pwsh
       run: |
         dotnet publish backend/CloudTasker.Functions/CloudTasker.Functions.sln -c Release -o ./publish
         cd ./publish
-        zip -r ../publish.zip .
+        Compress-Archive -Path * -DestinationPath ../publish.zip
         cd ..
-        az functionapp deployment source config-zip \
-          --resource-group cloudtasker-rg \
-          --name cloudtaskerfunc-santi \
-          --src ./publish.zip
+        az functionapp deployment source config-zip --resource-group cloudtasker-rg --name cloudtaskerfunc-santi --src ./publish.zip
