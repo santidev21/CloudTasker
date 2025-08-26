@@ -1,0 +1,174 @@
+{
+	"info": {
+		"_postman_id": "41ed1534-e7be-4065-8fc0-14a43e5eb823",
+		"name": "CloudTasker API",
+		"description": "StartFragmentA lightweight serverless API built with Azure Functions to manage tasks.  \nProvides CRUD operations for creating, reading, updating, and deleting tasks.  \nEach task contains a title, description, due date, completion status, and audit timestamps.EndFragment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24313583",
+		"_collection_link": "https://www.postman.com/santidev21/workspace/cloudtasker-api-docs/collection/24313583-41ed1534-e7be-4065-8fc0-14a43e5eb823?action=share&source=collection_link&creator=24313583"
+	},
+	"item": [
+		{
+			"name": "CreateTask",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"Write documentation\",\r\n  \"description\": \"Prepare API documentation for CloudTasker\",\r\n  \"dueDate\": \"2025-08-30T12:00:00Z\",\r\n  \"isDone\": false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/tasks",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"tasks"
+					]
+				},
+				"description": "- **Description:** Creates a new task in the system.\n    \n- **Response:** Returns the created task with its generated ID (`201 Created`).EndFragment"
+			},
+			"response": []
+		},
+		{
+			"name": "GetTasks",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/tasks",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"tasks"
+					]
+				},
+				"description": "- **Description:** Retrieves all tasks currently stored in the system.\n    \n- **Response:** Returns a list of tasks with their details (id, title, description, due date, status, createdAt, updatedAt)."
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateTask",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": \"e720817a-a39b-4a5f-a702-516b60f4e861\",\r\n  \"title\": \"Organize study notes 2\",\r\n  \"description\": \"Sort Angular and .NET notes into folders for quick access\",\r\n  \"isDone\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/tasks/:id",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"tasks",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{id}}"
+						}
+					]
+				},
+				"description": "- **Description:** Updates an existing task by ID.\n    \n- **Response:** Returns the updated task (`200 OK`) or `404 Not Found`."
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteTask",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/tasks/:id",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"tasks",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{id}}"
+						}
+					]
+				},
+				"description": "- **Description:** Deletes a task by ID.\n    \n- **Response:**\n    \n    - `204 No Content` if successfully deleted.\n        \n    - `404 Not Found` if the task does not exist."
+			},
+			"response": []
+		},
+		{
+			"name": "GetTaskById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/tasks/:id",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"tasks",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{id}}"
+						}
+					]
+				},
+				"description": "- **Description:** Retrieves a specific task by its unique identifier.\n    \n- **Response:** Returns the task if found, otherwise `404 Not Found`."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": ""
+		},
+		{
+			"key": "id",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
