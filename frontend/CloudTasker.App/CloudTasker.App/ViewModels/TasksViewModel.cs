@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using CloudTasker.App.Models;
 using CloudTasker.App.Services;
+using CloudTasker.App.Views;
 
 namespace CloudTasker.App.ViewModels
 {
@@ -74,19 +75,20 @@ namespace CloudTasker.App.ViewModels
                     Tasks.Remove(toRemove);
             }
         }
-
-        private void OnAddTask()
+        private async void OnAddTask()
         {
-            // 👉 Navigation to Add Task page (to implement)
-            Console.WriteLine("AddTask tapped");
+            await Application.Current.MainPage.Navigation.PushAsync(
+                new TaskDetailPage(new TaskDetailViewModel(_taskService, Application.Current.MainPage.Navigation))
+            );
         }
 
-        private void OnEditTask(TaskItem task)
+        private async void OnEditTask(TaskItem task)
         {
             if (task == null) return;
 
-            // 👉 Navigation to Edit Task page with the task (to implement)
-            Console.WriteLine($"EditTask tapped for {task.Id}");
+            await Application.Current.MainPage.Navigation.PushAsync(
+                new TaskDetailPage(new TaskDetailViewModel(_taskService, Application.Current.MainPage.Navigation, task))
+            );
         }
     }
 }
